@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order a bicycle</title>
+    <style>
+        #confirmationModal {
+            display: none; /* Hide the modal initially */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 100px;
+        }
+
+        #modalContent {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            text-align: center;
+        }
+
+        #closeButton {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #closeButton:hover {
+            background-color: #45a049;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        label {
+            font-size: 18px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Choose a bike type</h1>
+    <form method="GET" action="{% url 'bike' %}" onsubmit="showModal(event)">
+        <label>
+            <input type="radio" name="type" value="regular" checked>
+            Regular bicycle
+        </label>
+        <br>
+        <label>
+            <input type="radio" name="type" value="electric">
+            Electric bicycle
+        </label>
+        <br>
+        <button type="submit">Order</button>
+    </form>
+
+    <div id="confirmationModal">
+        <div id="modalContent">
+            <h2 id="bikeMessage"></h2>
+            <button id="closeButton" onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
+    <script>
+    function showModal(event) {
+        event.preventDefault();
+
+        const bikeType = document.querySelector('input[name="type"]:checked').value;
+        const bikeMessage = bikeType === 'electric'
+            ? 'Electric Bike with Aluminum frame and Reinforced wheels.'
+            : 'Regular Bike with Steel frame and Standard wheels.';
+
+        document.getElementById("bikeMessage").innerText = `Order confirmed: ${bikeMessage}`;
+        document.getElementById("confirmationModal").style.display = "block";
+
+        setTimeout(() => {
+            event.target.submit();
+        }, 1500);
+    }
+
+    function closeModal() {
+        document.getElementById("confirmationModal").style.display = "none"; // Приховати модальне вікно
+    }
+</script>
+
+</body>
+</html>
